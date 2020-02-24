@@ -6,7 +6,7 @@
   expect:
     command: mkpasswd --method=sha-512
     responses:
-      (?i)password: "{{default_pass}}{{ rand_str.stdout}}"
+      (?i)password: "{{ change_password_pattern }}{{ rand_str.stdout}}"
   register: password_hash
 - name: Create paswd.csv file
   file:
@@ -16,7 +16,7 @@
   delegate_to: localhost
   lineinfile:
     path: "{{ lookup('env', 'PWD') }}/passwd.csv"
-    line: "{{ inventory_hostname }} , {{default_pass}}{{ rand_str.stdout}}"
+    line: "{{ inventory_hostname }} , {{ change_password_pattern }}{{ rand_str.stdout}}"
 - name: Change password for root user in remote server
   become: true # do this as root
   user:
