@@ -13,6 +13,8 @@ pip install pexpect
 
 `change_password_pattern`: passwordPattern
 
+`change_password_random_size`: sizeOfRandomCharsForPassword
+
 
 ## Outputs are in passwd.csv
 ```
