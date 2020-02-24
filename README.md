@@ -6,9 +6,6 @@
 
 sed -i 's/PASSWORD_PATTERN/YOUR_PATTERN/g' change-root-password.yaml
 ```
-```
-touch passwd.csv
-```
 ## run ansible: 
 ```
 ansible-playbook -i environments/production/inventory change-root-password.yaml -u YOUR-USERS  -e 'ansible_become=true' -e 'ansible_become_method=sudo'
