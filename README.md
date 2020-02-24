@@ -1,20 +1,16 @@
 # Change root passowrd
+This project automatically generate random password and combined with your pattern, Then you can memorize your pattern and put the random section in your password managers like lastpass.
 
-## Set your pattern :
-```
-# default pattern is "PASSWORD_PATTERN"
+## Vars 
 
-sed -i 's/PASSWORD_PATTERN/YOUR_PATTERN/g' change-root-password.yaml
-```
-## run ansible: 
-```
-ansible-playbook -i environments/production/inventory change-root-password.yaml -u YOUR-USERS  -e 'ansible_become=true' -e 'ansible_become_method=sudo'
-```
+`change_password_user`: username
+
+`change_password_pattern`: passwordPattern
 
 
 ## Outputs are in passwd.csv
 ```
-cat passwd.csv
+cat $PWD/passwd.csv
 ```
 
 *Tested on Ubuntu/Debian
