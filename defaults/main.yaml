@@ -1,0 +1,2 @@
+change_password_user: "{{ ansible_user }}"
+change_password_pattern: PASSWORD_PATTERN
