@@ -1,25 +1,23 @@
 - name: Generate new random seed
   shell: tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | cut -c 1-{{ change_password_random_size }}
   register: rand_str
-- name: Generate new random password hash
-  delegate_to: localhost
-  expect:
-    command: mkpasswd --method=sha-512
-    responses:
-      (?i)password: "{{ change_password_pattern }}{{ rand_str.stdout}}"
-  register: password_hash
+
 - name: Create paswd.csv file
   delegate_to: localhost
   file:
     path: "{{ lookup('env', 'PWD') }}/passwd.csv"
     state: touch
+
 - name: Put generated password to local file at passwd.csv
   delegate_to: localhost
   lineinfile:
     path: "{{ lookup('env', 'PWD') }}/passwd.csv"
-    line: "{{ inventory_hostname }} , {{ change_password_pattern }}{{ rand_str.stdout}}"
-- name: Change password for root user in remote server
+    line: "{{ inventory_hostname }} , {{ change_password_pattern }}{{ rand_str.stdout }}"
+
+- name: Change password for {{ change_password_user }} user in remote server
   become: true # do this as root
   user:
     name: "{{ change_password_user }}"
-    password: "{{ password_hash.stdout_lines[-1] }}" 
+    password: "{{ password | password_hash('sha512') }}" 
+  vars:
+    password: "{{ change_password_pattern }}{{ rand_str.stdout }}"
